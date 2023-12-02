@@ -7,8 +7,10 @@ import Home from './pages/home.tsx'
 import NoPage from './pages/nopage.tsx'
 import SignIn from './pages/signin.tsx'
 import SignUp from './pages/signup.tsx'
+import { ThemeProvider } from "@/components/theme-provider"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
   <React.StrictMode>
     <BrowserRouter>
     <Routes>
@@ -21,5 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </Route>
     </Routes>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </ThemeProvider>,
 )
