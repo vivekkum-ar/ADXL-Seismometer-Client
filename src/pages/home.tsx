@@ -2,8 +2,9 @@ import Charts from '@/components/charts'
 import SyncCharts from '@/components/syncAreaCharts';
 import { Button } from '@/components/ui/button'
 import { toast } from "sonner"
-import React from 'react';
+import React, { useContext } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { UserContext } from '@/userContext';
 interface HomeProps {
   // Add your prop types here
 }
@@ -64,7 +65,7 @@ const Home: React.FC<HomeProps> = ({}) => {
             label: <Icon icon="maki:cross"/>,
             onClick: () => console.log("Undo"),
           },
-        })}>Show toast</Button>
+        })}>Show toast{"user.email"}</Button>
     </div>
     
     <Charts></Charts>

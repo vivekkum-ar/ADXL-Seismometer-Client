@@ -12,7 +12,15 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { Icon } from "@iconify/react/dist/iconify.js"
+import { ModeToggle } from "./mode-toggle"
+import { UserContext } from "@/userContext"
+import { useContext } from "react"
+import { Button } from "./ui/button"
+import { auth } from "@/firebase"
+import { signOut } from "firebase/auth"
+import { toast } from "sonner"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -143,3 +151,39 @@ const ListItem = React.forwardRef<
   )
 })
 ListItem.displayName = "ListItem"
+
+export function NavigationBar(){
+  const navigate = useNavigate();
+  const {user,setUser} = useContext(UserContext);
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    setUser(null);
+    toast("LogOut successful", { description: `You have been logged out` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
+      })
+    }).catch((error) => {
+      // An error happened.
+      toast.error(`LogOut failed`, {
+        description: error.message,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
+      })
+    });
+    navigate("/signin");
+  }
+  return (
+    <div className="flex flex-row max-w-screen-xl mx-auto relative mb-20 z-40">
+        <div className="fixed flex flex-row justify-between w-full px-10 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
+          <div className='flex flex-row items-center cursor-pointer' onClick={() => navigate("/")}>
+            <Icon icon="ri:earthquake-fill" fontSize={35} />
+            <span className='font-bold text-xl font-psemibold ps-2 text-violet-500'>Earthquake</span> 
+            <span className='font-bold text-xl font-psemibold ps-2'>Tracker</span>
+          </div>
+          <NavBar></NavBar>
+          <div className="flex flex-row items-center space-x-4">
+          <ModeToggle></ModeToggle>
+          {user && <Button onClick={() => handleSignOut()}>Logout</Button>}
+          </div>
+        </div>
+
+      </div>
+  )
+}
