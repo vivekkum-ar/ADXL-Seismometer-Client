@@ -1,11 +1,9 @@
-import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './Layout.css'
 import { Icon } from '@iconify/react';
 import { Outlet } from 'react-router-dom'
 import { NavBar } from './components/nav'
 import { ModeToggle } from './components/mode-toggle'
+import { Toaster } from './components/ui/sonner';
 
 function Layout() {
 
@@ -15,7 +13,7 @@ function Layout() {
         <div className="fixed flex flex-row justify-between w-full px-10 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
           <div className='flex flex-row items-center'>
             <Icon icon="ri:earthquake-fill" fontSize={40} />
-            <span className='font-bold text-xl'>Earthquake Tracker</span>
+            <span className='font-bold text-xl font-psemibold ps-2'>Earthquake Tracker</span>
           </div>
           <NavBar></NavBar>
           <ModeToggle></ModeToggle>
@@ -23,6 +21,7 @@ function Layout() {
 
       </div>
       <Outlet></Outlet>
+      <Toaster />
       {/* <div className="h-[1000px] bg-gray-500"></div> */}
     </>
   )

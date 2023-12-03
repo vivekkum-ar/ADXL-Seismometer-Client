@@ -1,7 +1,9 @@
 import Charts from '@/components/charts'
 import SyncCharts from '@/components/syncAreaCharts';
 import { Button } from '@/components/ui/button'
+import { toast } from "sonner"
 import React from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 interface HomeProps {
   // Add your prop types here
 }
@@ -54,13 +56,19 @@ const Home: React.FC<HomeProps> = ({}) => {
   ];
   return (
     <>
-    <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-bold '>
-      
+    <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
+      Hello
+    <Button onClick={() => toast("Sign up failed due to wrong credentials",{
+          description: "Sunday, December 03, 2023 at 9:00 AM",
+          action: {
+            label: <Icon icon="maki:cross"/>,
+            onClick: () => console.log("Undo"),
+          },
+        })}>Show toast</Button>
     </div>
     
     <Charts></Charts>
     <SyncCharts data={data}></SyncCharts>
-    
     </>
   )
 }
