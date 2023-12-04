@@ -1,7 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 // import { Navigate } from 'react-router-dom';
 import NotProtected from './pages/notProtected';
 import { UserContext } from './userContext';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 
 interface ProtectedProps {
   // Add your prop types here
@@ -9,11 +11,29 @@ interface ProtectedProps {
 }
 
 const Protected: React.FC<ProtectedProps> = ({ children }) => {
-    const {user , setUser} = useContext(UserContext);
-    if (!user || user === null) {
-        return <NotProtected />;
+  const {setUser} = useContext(UserContext);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    /* ---------------------------------------------------------------------------------------------- */
+    /*                  Check if user is logged in and set the user state accordingly                 */
+    /* ---------------------------------------------------------------------------------------------- */
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user)
+        setIsLogged(true);
+        // ...
+      } else {
+        // User is signed out
+        setIsLogged(false);
       }
-    else return children;
+    });
+  }, [])
+  return (
+    <>
+      {isLogged ? children : <NotProtected />}
+    </>
+  )
 }
 
 export default Protected
