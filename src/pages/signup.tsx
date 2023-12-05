@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -20,6 +20,10 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
+  // adding zod validation for username
+  username: z.string().min(5, {
+    message: "Username must be at least 5 characters long.",
+  }),
   // adding zod validation for email
   email: z.string().email({
     message: "Please enter a valid email address.",
@@ -30,11 +34,12 @@ const FormSchema = z.object({
 })
 
 export function SignUpForm() {
-  const {user,setUser} = useContext(UserContext);
+  const {setUser} = useContext(UserContext);
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      username: "",
       email: "",
       password: "",
     },
@@ -47,12 +52,25 @@ export function SignUpForm() {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         // Signed up 
-        const currentUser = userCredential.user;
-        setUser(currentUser);
-        console.log(currentUser)
-        toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
+        updateProfile(userCredential.user, {
+          displayName: data.username, photoURL: "https://example.com/jane-q-user/profile.jpg"
+        }).then(() => {
+          const currentUser = userCredential.user;
+          setUser(currentUser);
+          console.log(currentUser)
+          toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
+        });
+          navigate("/home");
+          // Profile updated!
+          // ...
+        }).catch((error) => {
+          // An error occurred
+          const errorMessage = error.message;
+          toast.error(`Sign up failedherehere`, {
+            description: errorMessage,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
+          })
+          // ...
       })
-      navigate("/home");
     })
       .catch((error) => {
         // const errorCode = error.code;
@@ -67,6 +85,22 @@ export function SignUpForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full justify-center flex flex-col space-y-6">
         
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="coolperson" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"

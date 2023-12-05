@@ -11,6 +11,7 @@ interface HomeProps {
 
 
 const Home: React.FC<HomeProps> = ({}) => {
+  const {user} = useContext(UserContext);
   const data = [
     {
       name: 'Page A',
@@ -58,7 +59,7 @@ const Home: React.FC<HomeProps> = ({}) => {
   return (
     <>
     <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
-      Hello
+      Hello {user.displayName}
     <Button onClick={() => toast("Sign up failed due to wrong credentials",{
           description: "Sunday, December 03, 2023 at 9:00 AM",
           action: {
