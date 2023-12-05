@@ -161,13 +161,14 @@ export function NavigationBar(){
     setUser(null);
     toast("LogOut successful", { description: `You have been logged out` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
       })
+      navigate("/signin");
     }).catch((error) => {
       // An error happened.
       toast.error(`LogOut failed`, {
         description: error.message,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
       })
+      navigate("/signin");
     });
-    navigate("/signin");
   }
   return (
     <div className="flex flex-row max-w-screen-xl mx-auto relative mb-20 z-40">

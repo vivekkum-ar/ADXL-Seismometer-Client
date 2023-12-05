@@ -12,6 +12,7 @@ import { UserContext } from './userContext.ts'
 import Protected from './protectedHoc.tsx'
 import { set } from 'react-hook-form'
 import { auth } from './firebase.ts'
+import { ForgotPassword } from './pages/forgotPassword.tsx'
 
 interface MainProps {
   // Add your prop types here
@@ -36,6 +37,7 @@ const Main: React.FC<MainProps> = ({ }) => {
                 <Route path="*" element={<NoPage />}></Route>
                 <Route path="signup" element={<SignUp />}></Route>
                 <Route path="signin" element={<SignIn />}></Route>
+                <Route path="forgotpassword" element={<ForgotPassword />}></Route>
               </Route>
             </Routes>
           </BrowserRouter>

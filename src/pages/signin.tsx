@@ -107,9 +107,9 @@ export function SignInForm() {
               <FormControl>
                 <Input type="password" placeholder="●●●●●●●●" {...field} />
               </FormControl>
-              {/* <FormDescription>
-                This is your public display name.
-              </FormDescription> */}
+              <FormDescription>
+                Fogot your password? <Link to="/forgotpassword" className="text-violet-500 font-pregular">Reset here</Link>
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
