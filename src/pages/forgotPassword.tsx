@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { auth } from "@/firebase";
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "@/userContext";
+import Loading from "@/components/modalLoading";
 
 const FormSchema = z.object({
   // adding zod validation for email
@@ -25,9 +28,8 @@ const FormSchema = z.object({
 })
 
 export function ForgotPasswordForm() {
-  // const {user,setUser} = useContext(UserContext);
+  const {setIsLoading} = useContext(UserContext);
   const navigate = useNavigate();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -36,6 +38,7 @@ export function ForgotPasswordForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
     /* ---------------------------------------------------------------------------------------------- */
     /*                            Firebase ForgotPassword logic modular API                           */
     /* ---------------------------------------------------------------------------------------------- */
@@ -44,6 +47,7 @@ export function ForgotPasswordForm() {
         // Password reset email sent!
         toast("Password reset email sent", { description: `Please check ${data.email}`, classNames: { toast: "group-[.toaster]:border-green-500 group-[.toaster]:border-2" }, })
         navigate("/signin");
+        setIsLoading(false);
       })
       .catch((error) => {
         // const errorCode = error.code;
@@ -51,6 +55,7 @@ export function ForgotPasswordForm() {
         toast.error(`Sign up failed`, {
           description: errorMessage, classNames: { toast: "group-[.toaster]:border-red-500 group-[.toaster]:border-2" },
         })
+        setIsLoading(false);
       });
   }
 
@@ -80,7 +85,7 @@ export function ForgotPasswordForm() {
 }
 
 export function ForgotPassword() {
-  
+  const {isLoading} = useContext(UserContext);  
   return (
     <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 px-24 mx-auto ">
       <h1 className="font-pextrabold text-4xl text-center w-full mt-4">
@@ -93,6 +98,7 @@ export function ForgotPassword() {
       <h3 className="font-pregular text-md text-gray-400 text-center w-full my-4">
         Go back to <Link to="/signup" className="text-violet-500 font-psemibold">Sign Up</Link>
       </h3>
+      {isLoading && <Loading></Loading>}
     </div>
   )
 }

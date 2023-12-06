@@ -12,6 +12,14 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Link, useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react/dist/iconify.js"
 import { ModeToggle } from "./mode-toggle"
@@ -21,6 +29,7 @@ import { Button } from "./ui/button"
 import { auth } from "@/firebase"
 import { signOut } from "firebase/auth"
 import { toast } from "sonner"
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -152,39 +161,60 @@ const ListItem = React.forwardRef<
 })
 ListItem.displayName = "ListItem"
 
-export function NavigationBar(){
+export function NavigationBar() {
   const navigate = useNavigate();
-  const {user,setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const handleSignOut = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
-    setUser(null);
-    toast("LogOut successful", { description: `You have been logged out` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
+      setUser(null);
+      toast("LogOut successful", {
+        description: `You have been logged out`, classNames: { toast: "group-[.toaster]:border-green-500 group-[.toaster]:border-2" },
       })
       navigate("/signin");
     }).catch((error) => {
       // An error happened.
       toast.error(`LogOut failed`, {
-        description: error.message,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
+        description: error.message, classNames: { toast: "group-[.toaster]:border-red-500 group-[.toaster]:border-2" },
       })
       navigate("/signin");
     });
   }
   return (
-    <div className="flex flex-row max-w-screen-xl mx-auto relative mb-20 z-40">
-        <div className="fixed flex flex-row justify-between w-full px-10 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
-          <div className='flex flex-row items-center cursor-pointer' onClick={() => navigate("/")}>
-            <Icon icon="ri:earthquake-fill" fontSize={35} />
-            <span className='font-bold text-xl font-psemibold ps-2 text-violet-500'>Earthquake</span> 
-            <span className='font-bold text-xl font-psemibold ps-2'>Tracker</span>
-          </div>
-          <NavBar></NavBar>
-          <div className="flex flex-row items-center space-x-4">
-          <ModeToggle></ModeToggle>
-          {user && <Button onClick={() => handleSignOut()}>Logout</Button>}
-          </div>
+    <div className="flex flex-row max-w-screen-xl relative mb-20 z-40">
+      <div className="fixed flex flex-row justify-between w-full px-10 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
+        <div className='flex flex-row items-center cursor-pointer' onClick={() => navigate("/")}>
+          <Icon icon="ri:earthquake-fill" fontSize={35} />
+          <span className='font-bold text-xl font-psemibold ps-2 text-violet-500'>Earthquake</span>
+          <span className='font-bold text-xl font-psemibold ps-2'>Tracker</span>
         </div>
+        <NavBar></NavBar>
+        <div className="flex flex-row items-center space-x-4">
+          <ModeToggle></ModeToggle>
+          {user &&
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src="https://githu.com/shadcn.png" className="rounded-full " height={35} width={35} />
+                  <AvatarFallback className="border-2 bg-violet-500 text-white focus:outline-none font-psemibold border-slate-600 dark:border-slate-100 text-center px-1.5 py-2 rounded-full">
+                    {user.displayName[0].toUpperCase() + user.displayName[1].toUpperCase()}
 
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Hi, {user.displayName}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem><Icon icon="uil:edit" className="me-2" fontSize={15} style={{}} /> Edit Profile</DropdownMenuItem>
+                <DropdownMenuItem><Icon icon="codicon:law" className="me-2" fontSize={15} style={{}} />Terms</DropdownMenuItem>
+                <DropdownMenuItem><Icon icon="icon-park-solid:personal-privacy" className="me-2" fontSize={15} style={{}} />Privacy</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSignOut()}><Icon icon="ic:baseline-logout" className="me-2" fontSize={15} style={{}} />Logout</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          }
+        </div>
       </div>
+
+    </div>
   )
 }

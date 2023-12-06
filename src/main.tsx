@@ -10,8 +10,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { SignUp } from './pages/signup.tsx'
 import { UserContext } from './userContext.ts'
 import Protected from './protectedHoc.tsx'
-import { set } from 'react-hook-form'
-import { auth } from './firebase.ts'
 import { ForgotPassword } from './pages/forgotPassword.tsx'
 
 interface MainProps {
@@ -20,10 +18,11 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({ }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser ,isLoading, setIsLoading}}>
         <React.StrictMode>
           <BrowserRouter>
             <Routes>

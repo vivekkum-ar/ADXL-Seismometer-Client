@@ -18,6 +18,7 @@ import { auth } from "@/firebase";
 import { UserContext } from "@/userContext";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "@/components/modalLoading";
 
 const FormSchema = z.object({
   // adding zod validation for username
@@ -34,7 +35,7 @@ const FormSchema = z.object({
 })
 
 export function SignUpForm() {
-  const {setUser} = useContext(UserContext);
+  const {setUser,setIsLoading} = useContext(UserContext);
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,6 +47,7 @@ export function SignUpForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
     /* ---------------------------------------------------------------------------------------------- */
     /*                                Firebase signup logic modular API                               */
     /* ---------------------------------------------------------------------------------------------- */
@@ -61,6 +63,7 @@ export function SignUpForm() {
           toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
         });
           navigate("/home");
+          setIsLoading(false);
           // Profile updated!
           // ...
         }).catch((error) => {
@@ -69,6 +72,7 @@ export function SignUpForm() {
           toast.error(`Sign up failedherehere`, {
             description: errorMessage,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
           })
+          setIsLoading(false);
           // ...
       })
     })
@@ -78,6 +82,7 @@ export function SignUpForm() {
         toast.error(`Sign up failedherehere`, {
           description: errorMessage,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
         })
+        setIsLoading(false);
       });
   }
 
@@ -140,6 +145,7 @@ export function SignUpForm() {
 }
 
 export function SignUp() {
+  const {isLoading} = useContext(UserContext);
   return (
     <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 px-24 mx-auto ">
       <h1 className="font-pextrabold text-4xl text-center w-full mt-4">
@@ -152,6 +158,7 @@ export function SignUp() {
       <h3 className="font-pregular text-md text-gray-400 text-center w-full my-4">
         Already have an account? <Link to="/signin" className="text-violet-500 font-psemibold">Sign in</Link>
       </h3>
+      {isLoading && <Loading></Loading>}
     </div>
   )
 }

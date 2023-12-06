@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,6 +18,7 @@ import { auth } from "@/firebase";
 import { UserContext } from "@/userContext";
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "@/components/modalLoading";
 
 const FormSchema = z.object({
   // adding zod validation for email
@@ -30,7 +31,7 @@ const FormSchema = z.object({
 })
 
 export function SignInForm() {
-  const {user,setUser} = useContext(UserContext);
+  const {setUser,setIsLoading} = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export function SignInForm() {
     /* ---------------------------------------------------------------------------------------------- */
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
+        // const uid = user.uid;
         setUser(user)
         navigate("/home");
         // ...
@@ -58,6 +59,7 @@ export function SignInForm() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
     /* ---------------------------------------------------------------------------------------------- */
     /*                                Firebase signIn logic modular API                               */
     /* ---------------------------------------------------------------------------------------------- */
@@ -69,6 +71,7 @@ export function SignInForm() {
         toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
       })
       navigate("/home");
+      setIsLoading(false);
     })
       .catch((error) => {
         // const errorCode = error.code;
@@ -76,6 +79,7 @@ export function SignInForm() {
         toast.error(`Sign up failed`, {
           description: errorMessage,classNames: {toast:"group-[.toaster]:border-red-500 group-[.toaster]:border-2"},
         })
+        setIsLoading(false);
       });
   }
 
@@ -121,7 +125,7 @@ export function SignInForm() {
 }
 
 export function SignIn() {
-  
+  const {isLoading} = useContext(UserContext);
   return (
     <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 px-24 mx-auto ">
       <h1 className="font-pextrabold text-4xl text-center w-full mt-4">
@@ -134,6 +138,7 @@ export function SignIn() {
       <h3 className="font-pregular text-md text-gray-400 text-center w-full my-4">
         Don't have and account? <Link to="/signup" className="text-violet-500 font-psemibold">Sign Up</Link>
       </h3>
+      {isLoading && <Loading></Loading>}
     </div>
   )
 }
