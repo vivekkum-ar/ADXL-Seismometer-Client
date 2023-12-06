@@ -14,12 +14,34 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ }) => {
   const [data2, setData] = useState<{ name: string; uv: any; pv: any; amt: any; }[]>([]);
 
+const { user } = useContext(UserContext);
+const db = getDatabase();
+const txt = ref(db, 'LED/' + "txt/");
 
+useEffect(() => {
+  const fetchData = () => {
+    onValue(txt, (snapshot) => {
+      const data3 = snapshot.val();
+      const dataArray = data3.replace(/[{}]/g, '').split(',').map(Number);
+      setData((prevData) => {
+        const newData = {
+          name: `${prevData.length}`, // Use prevData to get the latest state
+          uv: dataArray[0],
+          pv: dataArray[1],
+          amt: dataArray[2],
+        };
+        return [...prevData, newData];
+      });
+    });
+  };
+
+  fetchData();
+}, []);
 
   return (
     <>
       <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
-        {/* Hello {user.displayName} */}
+        Hello {user.displayName}
         <Button onClick={() => toast("Sign up failed due to wrong credentials", {
           description: "Sunday, December 03, 2023 at 9:00 AM",
           action: {
