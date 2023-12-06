@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { UserContext } from '@/userContext';
 import { getDatabase, ref, onValue } from "firebase/database";
+import MainTable from '@/components/tabulation';
 interface HomeProps {
   // Add your prop types here
 }
@@ -53,6 +54,7 @@ useEffect(() => {
 
       <Charts data={data2}></Charts>
       <SyncCharts data={data2}></SyncCharts>
+      <MainTable data={data2}></MainTable>
       {/* <div>{data2[data2.length - 1].name}</div> */}
     </>
   )
