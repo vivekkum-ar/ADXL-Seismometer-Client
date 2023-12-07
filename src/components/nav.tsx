@@ -195,17 +195,16 @@ export function NavigationBar() {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src="https://githu.com/shadcn.png" className="rounded-full " height={35} width={35} />
+                  <AvatarImage src={user.photoURL} className="rounded-full " height={35} width={35} />
                   <AvatarFallback className="border-2 bg-violet-500 text-white focus:outline-none font-psemibold border-slate-600 dark:border-slate-100 text-center px-1.5 py-2 rounded-full">
                     {user.displayName[0].toUpperCase() + user.displayName[1].toUpperCase()}
-
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>Hi, {user.displayName}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem><Icon icon="uil:edit" className="me-2" fontSize={15} style={{}} /> Edit Profile</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/editprofile")}><Icon icon="uil:edit" className="me-2" fontSize={15} style={{}} /> Edit Profile</DropdownMenuItem>
                 <DropdownMenuItem><Icon icon="codicon:law" className="me-2" fontSize={15} style={{}} />Terms</DropdownMenuItem>
                 <DropdownMenuItem><Icon icon="icon-park-solid:personal-privacy" className="me-2" fontSize={15} style={{}} />Privacy</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleSignOut()}><Icon icon="ic:baseline-logout" className="me-2" fontSize={15} style={{}} />Logout</DropdownMenuItem>

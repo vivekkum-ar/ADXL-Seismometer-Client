@@ -42,7 +42,7 @@ useEffect(() => {
   return (
     <>
       <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
-        Hello {user.displayName}
+        <h1 className="text-5xl font-pbold text-left w-full px-20">Hello, {user.displayName}</h1>
         <Button onClick={() => toast("Sign up failed due to wrong credentials", {
           description: "Sunday, December 03, 2023 at 9:00 AM",
           action: {

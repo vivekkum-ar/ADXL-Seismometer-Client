@@ -11,6 +11,7 @@ import { SignUp } from './pages/signup.tsx'
 import { UserContext } from './userContext.ts'
 import Protected from './protectedHoc.tsx'
 import { ForgotPassword } from './pages/forgotPassword.tsx'
+import {EditProfile} from './pages/editProfile.tsx'
 
 interface MainProps {
   // Add your prop types here
@@ -32,6 +33,9 @@ const Main: React.FC<MainProps> = ({ }) => {
                 }></Route>
                 <Route path="home" element={
                   <Protected><Home /></Protected>
+                }></Route>
+                <Route path="editprofile" element={
+                  <Protected><EditProfile /></Protected>
                 }></Route>
                 <Route path="*" element={<NoPage />}></Route>
                 <Route path="signup" element={<SignUp />}></Route>
