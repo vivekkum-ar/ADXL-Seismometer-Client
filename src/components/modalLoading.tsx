@@ -7,7 +7,7 @@ interface LoadingProps {
 
 const Loading: React.FC<LoadingProps> = ({}) => {
   return (
-    <div className="spinner-overlay">
+    <div className="scale-150 spinner-overlay bg-gray-900 opacity-30 dark:bg-white">
       <div className="flex justify-items-center items-center w-[100px] h-[100px] rounded-lg">
     <div className="spinner
     center scale-150

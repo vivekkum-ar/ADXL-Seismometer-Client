@@ -43,13 +43,16 @@ useEffect(() => {
     <>
       <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
         <h1 className="text-5xl font-pbold text-left w-full px-20">Hello, {user.displayName}</h1>
-        <Button onClick={() => toast("Sign up failed due to wrong credentials", {
+        {/* <Button onClick={() => toast("Sign up failed due to wrong credentials", {
           description: "Sunday, December 03, 2023 at 9:00 AM",
           action: {
             label: <Icon icon="maki:cross" />,
             onClick: () => console.log("Undo"),
           },
-        })}>Show toast{"user.email"}</Button>
+        })}>Show toast{"user.email"}</Button> */}
+        <p className="text-xl font-pregular text-start w-full px-20 text-gray-400 mt-4 mb-12">
+          Here are some data visualizations for you
+        </p>
       </div>
 
       <Charts data={data2}></Charts>

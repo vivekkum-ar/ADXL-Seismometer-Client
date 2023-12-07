@@ -1,4 +1,4 @@
-import { sendPasswordResetEmail } from "firebase/auth";
+import { onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import { auth } from "@/firebase";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "@/userContext";
 import Loading from "@/components/modalLoading";
 
@@ -28,8 +28,25 @@ const FormSchema = z.object({
 })
 
 export function ForgotPasswordForm() {
-  const {setIsLoading} = useContext(UserContext);
+  const {setIsLoading,setUser} = useContext(UserContext);
   const navigate = useNavigate();
+
+  /* ---------------------------------------------------------------------------------------------- */
+  /*                  Check if user is logged in and set the user state accordingly                 */
+  /* ---------------------------------------------------------------------------------------------- */
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // const uid = user.uid;
+        setUser(user)
+        navigate("/home");
+        // ...
+      } else {
+        // User is signed out
+      }
+    });
+  }, [])
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

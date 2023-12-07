@@ -34,10 +34,10 @@ export function SignInForm() {
   const {setUser,setIsLoading} = useContext(UserContext);
   const navigate = useNavigate();
 
+  /* ---------------------------------------------------------------------------------------------- */
+  /*                  Check if user is logged in and set the user state accordingly                 */
+  /* ---------------------------------------------------------------------------------------------- */
   useEffect(() => {
-    /* ---------------------------------------------------------------------------------------------- */
-    /*                  Check if user is logged in and set the user state accordingly                 */
-    /* ---------------------------------------------------------------------------------------------- */
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // const uid = user.uid;
