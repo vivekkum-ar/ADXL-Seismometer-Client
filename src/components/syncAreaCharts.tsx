@@ -9,7 +9,7 @@ interface SyncChartsProps {
 const SyncCharts: React.FC<SyncChartsProps> = ({data}) => {
     return (
     <>
-    <div className="px-20 flex flex-row justify-center items-center">
+    <div className="md:px-20 px-0 flex md:flex-row flex-col justify-center items-center">
 <div className="w-full">
 <p className="text-center">Maybe some other content</p>
     <ResponsiveContainer width="100%" height={200}>

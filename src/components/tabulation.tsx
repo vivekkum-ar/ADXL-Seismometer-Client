@@ -18,7 +18,7 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
     
   return (
     <>
-        <Table className='max-w-screen-lg mx-auto'>
+        <Table className='max-w-screen-lg mx-auto '>
   <TableCaption>A list of all sensor data.</TableCaption>
   
   <TableHeader>

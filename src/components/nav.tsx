@@ -25,7 +25,6 @@ import { Icon } from "@iconify/react/dist/iconify.js"
 import { ModeToggle } from "./mode-toggle"
 import { UserContext } from "@/userContext"
 import { useContext } from "react"
-import { Button } from "./ui/button"
 import { auth } from "@/firebase"
 import { signOut } from "firebase/auth"
 import { toast } from "sonner"
@@ -182,21 +181,21 @@ export function NavigationBar() {
   }
   return (
     <div className="flex flex-row max-w-screen-xl relative mb-20 z-40">
-      <div className="fixed flex flex-row justify-between w-full px-10 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
+      <div className="fixed flex flex-row justify-between w-full md:px-10 px-1 py-2 border-b-2 border-gray-400 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg shadow-gray-300 dark:shadow-gray-900">
         <div className='flex flex-row items-center cursor-pointer' onClick={() => navigate("/")}>
           <Icon icon="ri:earthquake-fill" fontSize={35} />
           <span className='font-bold text-xl font-psemibold ps-2 text-violet-500'>Earthquake</span>
           <span className='font-bold text-xl font-psemibold ps-2'>Tracker</span>
         </div>
-        <NavBar></NavBar>
-        <div className="flex flex-row items-center space-x-4">
+        {/* <NavBar></NavBar> */}
+        <div className="flex flex-row items-center md:space-x-4 space-x-2">
           <ModeToggle></ModeToggle>
           {user &&
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>
-                  <AvatarImage src={user.photoURL} className="rounded-full " height={35} width={35} />
-                  <AvatarFallback className="border-2 bg-violet-500 text-white focus:outline-none font-psemibold border-slate-600 dark:border-slate-100 text-center px-1.5 py-2 rounded-full">
+                  <AvatarImage src={user.photoURL} className="rounded-full outline outline-gray-500" height={35} width={35} />
+                  <AvatarFallback className="border-2 bg-violet-500 text-white focus:outline-none font-psemibold border-slate-600 dark:border-slate-100 text-center px-2.5 py-2 rounded-full">
                     {user.displayName[0].toUpperCase() + user.displayName[1].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

@@ -16,6 +16,7 @@ const Home: React.FC<HomeProps> = ({ }) => {
   const [data2, setData] = useState<{ name: string; uv: any; pv: any; amt: any; }[]>([]);
 
 const { user } = useContext(UserContext);
+
 const db = getDatabase();
 const txt = ref(db, 'LED/' + "txt/");
 
@@ -41,8 +42,8 @@ useEffect(() => {
 
   return (
     <>
-      <div className='max-w-screen-xl mx-auto flex flex-col items-center justify-center font-pregular '>
-        <h1 className="text-5xl font-pbold text-left w-full px-20">Hello, {user.displayName}</h1>
+      <div className='md:max-w-screen-xl max-w-screen-md mx-auto flex flex-col items-center justify-center font-pregular '>
+        <h1 className="md:text-5xl text-2xl font-pbold text-left w-full md:px-20 px-4">Hello, {user.displayName}</h1>
         {/* <Button onClick={() => toast("Sign up failed due to wrong credentials", {
           description: "Sunday, December 03, 2023 at 9:00 AM",
           action: {
@@ -50,7 +51,7 @@ useEffect(() => {
             onClick: () => console.log("Undo"),
           },
         })}>Show toast{"user.email"}</Button> */}
-        <p className="text-xl font-pregular text-start w-full px-20 text-gray-400 mt-4 mb-12">
+        <p className="md:text-xl text-md font-pregular text-start w-full md:px-20 px-4 text-gray-400 md:mt-4 mt-1 md:mb-12 mb-4">
           Here are some data visualizations for you
         </p>
       </div>

@@ -6,25 +6,15 @@ interface ChartsProps {
 }
 
 const Charts: React.FC<ChartsProps> = ({data}) => {
-    // const data01 = [
-    //     { "x": 2, "y": 4 },
-    //     { "x": 5, "y": 0 },
-    //     { "x": 7, "y": 2 },
-    //     { "x": 3, "y": 1 },
-    //     { "x": 6, "y": 5 },
-    //     { "x": 1, "y": 3 }
-    //   ];
   return (
-    <ResponsiveContainer className={"px-20"} height={400}>
-        <ScatterChart
+    <ResponsiveContainer className={"md:px-20 px-1 md:m-[20] md:max-h-96 max-h-72 md:min-h-96 min-h-72 mb-12"}>
+        <ScatterChart className=''
           margin={{
-            top: 20,
             right: 20,
-            bottom: 20,
             left: 20,
           }}
         >
-          <CartesianGrid />
+          <CartesianGrid className='outline-gray-900 px-10'/>
           <XAxis type="number" dataKey="uv" name="X-axis" unit={"ms^-2"} />
           <YAxis type="number" dataKey="pv" name="Y-axis" unit="ms^-2" />
           <ZAxis type="number" range={[100]} />

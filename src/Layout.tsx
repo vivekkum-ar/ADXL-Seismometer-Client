@@ -9,7 +9,6 @@ function Layout() {
       <NavigationBar/>
       <Outlet />
       <Toaster />
-      {/* <div className="h-[1000px] bg-gray-500"></div> */}
     </>
   )
 }

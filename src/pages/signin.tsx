@@ -127,7 +127,7 @@ export function SignInForm() {
 export function SignIn() {
   const {isLoading} = useContext(UserContext);
   return (
-    <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 px-24 mx-auto ">
+    <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 md:px-24 px-6 mx-auto ">
       <h1 className="font-pextrabold text-4xl text-center w-full mt-4">
         Sign In
       </h1>

@@ -43,7 +43,7 @@ export function EditForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      username: user.displayName || "",
       photoURL: undefined, // Adjust the default value to be `undefined`
     },
   });
@@ -108,7 +108,7 @@ export function EditForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full justify-center flex flex-col space-y-6">
         <div className="relative flex justify-center" onClick={() => fileInputRef.current?.click()}>
-        <img src={photoPreview == undefined ? user.photoURL : photoPreview} className="cursor-pointer rounded-full w-32 h-32 mx-auto outline hover:opacity-[0.3] peer text-black" alt="" />
+        <img src={photoPreview == undefined ? user.photoURL : photoPreview} className="cursor-pointer rounded-full w-32 h-32 mx-auto outline outline-gray-400 dark:bg-white hover:opacity-[0.3] peer text-black" alt="" />
         <Icon icon="ic:baseline-edit" fontSize={30} className="invisible peer-hover:visible mx-auto absolute top-[50px]" />
         </div>
         <FormField
@@ -163,7 +163,7 @@ export function EditProfile() {
   const { isLoading } = useContext(UserContext);
 
   return (
-    <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 px-24 mx-auto">
+    <div className="flex flex-col items-center justify-center max-w-screen-sm py-6 md:px-24 px-6 mx-auto">
       <h1 className="font-pextrabold text-4xl text-center w-full mt-4">
         Edit Profile
       </h1>
