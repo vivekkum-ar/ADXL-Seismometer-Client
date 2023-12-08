@@ -77,8 +77,7 @@ export function SignUpForm() {
           const currentUser = userCredential.user;
           setUser(currentUser);
           console.log(currentUser)
-          toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},
-        });
+          toast("Sign up successful", { description: `Welcome ${data.email}` ,classNames: {toast:"group-[.toaster]:border-green-500 group-[.toaster]:border-2"},});
           navigate("/home");
           setIsLoading(false);
           // Profile updated!

@@ -1,44 +1,72 @@
 import Charts from '@/components/charts'
 import SyncCharts from '@/components/syncAreaCharts';
-import { Button } from '@/components/ui/button'
 import { toast } from "sonner"
 import React, { useContext, useEffect, useState } from 'react';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { UserContext } from '@/userContext';
 import { getDatabase, ref, onValue } from "firebase/database";
 import MainTable from '@/components/tabulation';
+import { messaging } from '@/firebase';
+import { getToken, onMessage } from 'firebase/messaging';
 interface HomeProps {
   // Add your prop types here
 }
 
 
 const Home: React.FC<HomeProps> = ({ }) => {
+  const { fcmToken, setFcmToken } = useContext(UserContext);
+
+  async function requestPermission() {
+    if (fcmToken !== null || fcmToken !== undefined || fcmToken !== "") {
+      //requesting permission using Notification API
+      const permission = await Notification.requestPermission();
+
+      if (permission === "granted") {
+        const token = await getToken(messaging, {
+          vapidKey: "BMTOuRz0HCcBtlJXpn4J_eUobB3w7SQlkdwIxSkG7-Z04TsTWfSUd7rUlhn_NRNeIpJX2NU6mRaarGcN84iYyS8",
+        });
+
+        //We can send token to server
+        console.log("Token generated : ", token);
+        setFcmToken(token);
+      } else if (permission === "denied") {
+        //notifications are blocked
+        alert("You denied for the notification");
+        setFcmToken("");
+      }
+    }
+  }
+  useEffect(() => {
+    requestPermission();
+    }, []);
+      onMessage(messaging, (payload) => {
+        toast(`${payload.notification?.title}`, { description: `${payload.notification?.body}`, classNames: { toast: "group-[.toaster]:border-green-500 group-[.toaster]:border-2" }, duration: 5000 });
+      });
   const [data2, setData] = useState<{ name: string; uv: any; pv: any; amt: any; }[]>([]);
 
-const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-const db = getDatabase();
-const txt = ref(db, 'LED/' + "txt/");
+  const db = getDatabase();
+  const txt = ref(db, 'LED/' + "txt/");
 
-useEffect(() => {
-  const fetchData = () => {
-    onValue(txt, (snapshot) => {
-      const data3 = snapshot.val();
-      const dataArray = data3.replace(/[{}]/g, '').split(',').map(Number);
-      setData((prevData) => {
-        const newData = {
-          name: `${prevData.length}`, // Use prevData to get the latest state
-          uv: dataArray[0],
-          pv: dataArray[1],
-          amt: dataArray[2],
-        };
-        return [...prevData, newData];
+  useEffect(() => {
+    const fetchData = () => {
+      onValue(txt, (snapshot) => {
+        const data3 = snapshot.val();
+        const dataArray = data3.replace(/[{}]/g, '').split(',').map(Number);
+        setData((prevData) => {
+          const newData = {
+            name: `${prevData.length}`, // Use prevData to get the latest state
+            uv: dataArray[0],
+            pv: dataArray[1],
+            amt: dataArray[2],
+          };
+          return [...prevData, newData];
+        });
       });
-    });
-  };
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
   return (
     <>

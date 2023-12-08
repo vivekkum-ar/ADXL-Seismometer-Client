@@ -20,10 +20,11 @@ interface MainProps {
 const Main: React.FC<MainProps> = ({ }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [fcmToken, setFcmToken] = useState("");
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <UserContext.Provider value={{ user, setUser ,isLoading, setIsLoading}}>
+      <UserContext.Provider value={{ user, setUser ,isLoading, setIsLoading, fcmToken, setFcmToken}}>
         <React.StrictMode>
           <BrowserRouter>
             <Routes>

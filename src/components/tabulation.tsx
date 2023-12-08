@@ -33,7 +33,7 @@ const MainTable: React.FC<MainTableProps> = ({data}) => {
 {
 data.map((item,index) => {
   return(
-    <TableBody>
+    <TableBody key={index}>
     <TableRow>
       <TableCell className="font-medium">{index}</TableCell>
       <TableCell  className="text-center">{item.uv}</TableCell>

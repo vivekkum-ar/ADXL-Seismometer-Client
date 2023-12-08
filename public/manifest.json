@@ -2,6 +2,11 @@
     "short_name": "Earthquake Detector",
     "name": "Earthquake Detector",
     "description": "Real-Time Seismic Activity Monitoring and Alert System",
+    "service_worker": {
+      "src": "/firebase-messaging-sw.js",
+      "scope": "/",
+      "use_cache": true
+    },
     "icons": [
       {
         "src": "/favicon.ico",
