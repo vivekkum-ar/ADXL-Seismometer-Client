@@ -29,7 +29,7 @@ const Main: React.FC<MainProps> = ({ }) => {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={
-                  <Protected><Home /></Protected>
+                  <SignIn />
                 }></Route>
                 <Route path="home" element={
                   <Protected><Home /></Protected>

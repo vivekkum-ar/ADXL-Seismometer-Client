@@ -1,0 +1,46 @@
+{
+    "short_name": "Earthquake Detector",
+    "name": "Earthquake Detector",
+    "description": "Real-Time Seismic Activity Monitoring and Alert System",
+    "icons": [
+      {
+        "src": "/favicon.ico",
+        "sizes": "48x48",
+        "type": "image/x-icon"
+      },
+      {
+        "src": "/ri--earthquake-fill192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/ri--earthquake-fill256.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      },
+      {
+        "src": "/ri--earthquake-fill512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/screenshot (1).png",
+        "type": "image/png",
+        "sizes": "540x720",
+        "form_factor": "narrow"
+      },
+      {
+        "src": "/screenshot (2).png",
+        "type": "image/jpg",
+        "sizes": "720x540",
+        "form_factor": "wide"
+      }
+    ],
+    "start_url": "/signin",
+    "orientation": "portrait",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
